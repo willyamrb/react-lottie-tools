@@ -16,6 +16,6 @@ Default.args = {
   height: 5000,
   animationPosition: "center",
   debugMode: false,
-  animationData: chest,
-  initialSegment: [0, 200],
+  animation: chest,
+  frames: [0, 200],
 };

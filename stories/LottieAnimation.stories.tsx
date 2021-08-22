@@ -14,9 +14,8 @@ const Template: ComponentStory<typeof LottieAnimation> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   style: { width: "200px", height: "200px" },
-  animationData: menu,
-  // loop: false,
-  // autoplay: false,
-  initialSegment: [0, 100],
+  animation: menu,
+  frames: [0, 100],
+  // justPlayInView: true,
   // inViewSettings: {},
 };
