@@ -1,3 +1,4 @@
+import { AnimationSegment } from "lottie-web";
 import LottieSettings from "./lottie-settings.interface";
 
 interface LottieScrollSectionProps
@@ -16,6 +17,10 @@ interface LottieScrollSectionProps
    * @param debugMode This property shows the section and animation container borders, only for debugging purposes.
    */
   debugMode?: boolean;
+  /**
+   * @param frames This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one!
+   */
+  frames: AnimationSegment;
 }
 
 export default LottieScrollSectionProps;
