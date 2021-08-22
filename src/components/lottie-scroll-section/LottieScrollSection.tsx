@@ -9,12 +9,13 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   height,
   animationPosition = "center",
   debugMode = false,
-  initialSegment,
+  frames,
+  animation,
   ...rest
 }) => {
-  if (!initialSegment) {
+  if (!frames) {
     throw new Error(
-      "LottieScrollSection needs the initialSegment property in settings object!"
+      "LottieScrollSection needs the frames property in settings object!"
     );
   }
 
@@ -31,7 +32,7 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   const scene = useTransform(
     scrollY,
     [getTopPosition(sectionRef), getTotalViewport(sectionRef, height)],
-    initialSegment
+    frames
   );
 
   useEffect(() => {
@@ -41,9 +42,12 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
       const newAnim = lottie.loadAnimation({
         container: lottieContainerRef.current,
         renderer: "svg",
+        initialSegment: frames,
+        animationData: typeof animation !== "string" ? animation : undefined,
+        path: typeof animation === "string" ? animation : undefined,
+        ...rest,
         loop: false,
         autoplay: false,
-        ...rest,
       });
       setAnim(newAnim);
 

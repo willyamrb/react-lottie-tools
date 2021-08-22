@@ -6,10 +6,14 @@ import { useInView } from "react-intersection-observer";
 const LottieAnimation: React.FC<LottieAnimationProps> = ({
   onClick = () => null,
   currentTimeline = "from",
-  inViewSettings,
-  autoplay = false,
+  justPlayInView = false,
+  inViewSettings = {},
+  speed = 1,
   loop = false,
+  autoplay = justPlayInView ? false : true,
   style = { width: "100%", height: "100%" },
+  frames,
+  animation,
   ...rest
 }) => {
   const animRef = useRef<HTMLDivElement>(null);
@@ -25,8 +29,13 @@ const LottieAnimation: React.FC<LottieAnimationProps> = ({
         container: animRef.current,
         autoplay,
         loop,
+        initialSegment: frames,
+        animationData:
+          typeof animation !== "string" ? animation : undefined,
+        path: typeof animation === "string" ? animation : undefined,
         ...rest,
       });
+      newAnim.setSpeed(speed);
       setAnim(newAnim);
     }
 
@@ -47,7 +56,7 @@ const LottieAnimation: React.FC<LottieAnimationProps> = ({
   }, [currentTimeline]);
 
   useEffect(() => {
-    if (!inViewSettings) return;
+    if (!justPlayInView) return;
 
     if (inView) {
       anim?.play();
@@ -57,7 +66,7 @@ const LottieAnimation: React.FC<LottieAnimationProps> = ({
   }, [inView]);
 
   return (
-    <div ref={inViewSettings ? ref : undefined} style={style}>
+    <div ref={justPlayInView ? ref : undefined} style={style}>
       <div
         ref={animRef}
         onClick={onClick}
