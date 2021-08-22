@@ -1,10 +1,7 @@
-import LottieOptions from "./lottie-options.interface";
+import LottieSettings from "./lottie-settings.interface";
 
-interface LottieScrollSectionProps {
-  /**
-   * @param settings This property refers to normal lottie configs.
-   */
-  settings: LottieOptions;
+interface LottieScrollSectionProps
+  extends Omit<LottieSettings, "loop" | "autoplay"> {
   /**
    * @param height This property refers to section height, how much higher this value, will take more time to finish the animation.
    */

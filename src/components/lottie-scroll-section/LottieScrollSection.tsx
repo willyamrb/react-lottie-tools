@@ -1,4 +1,3 @@
-import { Box, Flex, SystemProps } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import lottie, { AnimationItem } from "lottie-web";
 import { useTransform, useViewportScroll } from "framer-motion";
@@ -7,12 +6,13 @@ import LottieScrollSectionProps from "../../@types/lottie-scroll-section.interfa
 import getTotalViewport from "../../utils/getTotalViewport";
 
 const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
-  settings,
   height,
   animationPosition = "center",
   debugMode = false,
+  initialSegment,
+  ...rest
 }) => {
-  if (!settings.initialSegment) {
+  if (!initialSegment) {
     throw new Error(
       "LottieScrollSection needs the initialSegment property in settings object!"
     );
@@ -31,7 +31,7 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   const scene = useTransform(
     scrollY,
     [getTopPosition(sectionRef), getTotalViewport(sectionRef, height)],
-    settings.initialSegment
+    initialSegment
   );
 
   useEffect(() => {
@@ -40,9 +40,10 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
     if (!anim) {
       const newAnim = lottie.loadAnimation({
         container: lottieContainerRef.current,
-        ...settings,
+        renderer: "svg",
         loop: false,
         autoplay: false,
+        ...rest,
       });
       setAnim(newAnim);
 
@@ -57,7 +58,7 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
     };
   }, [lottieContainerRef]);
 
-  const getAnimPosition = (): SystemProps["justifyContent"] => {
+  const getAnimPosition = (): "center" | "flex-start" | "flex-end" => {
     switch (animationPosition) {
       case "center":
         return "center";
@@ -71,23 +72,27 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   };
 
   return (
-    <Flex
+    <section
       ref={sectionRef}
-      justify={getAnimPosition()}
-      border={debugMode ? "1px solid red" : undefined}
-      w="full"
-      h={height}
-      pos="relative"
+      style={{
+        display: "flex",
+        width: "100%",
+        height,
+        position: "relative",
+        justifyContent: getAnimPosition(),
+        border: debugMode ? "1px solid red" : undefined,
+      }}
     >
-      <Box
+      <div
         ref={lottieContainerRef}
-        w="full"
-        h="100vh"
-        pos="sticky"
-        top="0"
-        border={debugMode ? "1px solid blue" : undefined}
+        style={{
+          height: "100vh",
+          position: "sticky",
+          top: "0",
+          border: debugMode ? "1px solid blue" : undefined,
+        }}
       />
-    </Flex>
+    </section>
   );
 };
 
