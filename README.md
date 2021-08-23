@@ -83,7 +83,7 @@ export default function MyComponent() {
 
 ### LottieScrollSection component
 
-Now one complex animation, the LottieScrollSection component will sincronize the current scroll with the animation frame. It means that according you scroll the page, the animation will play.
+Now a complex animation, the LottieScrollSection component will sincronize the current scroll with the animation frame. It means that according you scroll the page, the animation will play.
 
 ```jsx
 import { LottieScrollSection } from "react-lottie-tools";
@@ -105,3 +105,51 @@ export default function MyComponent() {
 | frames            | ✅       | [number, number] | null    | This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one! |
 | animationPosition | ❌       | string           | center  | This property refers to animation position inside the section. It just can be "left" / "center / "right"                                              |
 | debugMode         | ❌       | boolean          | false   | This property shows the section and animation container borders, only for debugging purposes.                                                         |
+
+## Using with Next.js
+
+Some components can't be rendered in server side, like LottieScrollSection, the reason of that is because this component uses the global window object to make some calcs and window is not defined in server side.
+
+To solve this problem you can use [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) of Next.js to ensure that this component just will be rendered in browsers.
+
+#### LottieScrollSection with next.js dynamic import
+
+```jsx
+import { LottieScrollSection } from "react-lottie-tools";
+import menu from "./assets/lottie-examples/menu.json";
+
+import dynamic from "next/dynamic";
+const LottieScrollSection = dynamic(
+  import("react-lottie-tools").then((data) => data.LottieScrollSection),
+  { ssr: false } // ssr is important to be false
+);
+
+export default function MyComponent() {
+  return (
+    <LottieScrollSection height={4000} animation={menu} frames={[0, 390]} />
+  );
+}
+```
+
+Using typescript
+
+```jsx
+import {
+  LottieScrollSection,
+  LottieScrollSectionProps,
+} from "react-lottie-tools";
+import menu from "./assets/lottie-examples/menu.json";
+
+import dynamic from "next/dynamic";
+const LottieScrollSection =
+  dynamic<LottieScrollSectionProps>(import("react-lottie-tools").then((data) => data.LottieScrollSection),
+  { ssr: false }); // ssr is important to be false
+
+const MyComponent: React.FC = () => {
+  return (
+    <LottieScrollSection height={4000} animation={menu} frames={[0, 390]} />
+  );
+};
+
+export default MyComponent;
+```

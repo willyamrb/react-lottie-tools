@@ -1,12 +1,17 @@
 {
   "name": "react-lottie-tools",
   "description": "This React library helps to work with lottie animations inside React.js",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "author": "willyamdev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willyamdev/react-lottie-tools"
+  },
+  "homepage": "https://github.com/willyamdev/react-lottie-tools#react-lottie-tools",
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@rollup/plugin-commonjs": "^20.0.0",
@@ -41,5 +46,14 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "build": "rollup -c"
-  }
+  },
+  "keywords": [
+    "lottie",
+    "animation",
+    "anim",
+    "lottie-web",
+    "react-lottie",
+    "react",
+    "interactions"
+  ]
 }
