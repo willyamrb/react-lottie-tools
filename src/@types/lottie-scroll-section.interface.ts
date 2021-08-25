@@ -1,26 +1,26 @@
-import { AnimationSegment } from "lottie-web";
-import LottieSettings from "./lottie-settings.interface";
+import { CSSProperties } from "react";
+import LottieScrollAnimations from "./lottie-scroll-animations.interface";
 
-interface LottieScrollSectionProps
-  extends Omit<LottieSettings, "loop" | "autoplay"> {
-  /**
-   * @param height This property refers to section height, how much higher this value, will take more time to finish the animation.
-   */
-  height: number;
+interface LottieScrollSectionProps extends LottieScrollAnimations {
   /**
    * @default center
    * @param animationPosition This property refers to aniamtion position inside the section.
    */
   animationPosition?: "center" | "left" | "right";
+
   /**
-   * @default false
-   * @param debugMode This property shows the section and animation container borders, only for debugging purposes.
+   * @default 0
+   * @param startMargin This property refers to increase the trigger point, the default behavior is that the animation just will play when the section take all the screen view, but you can increase that value to start before that.
    */
-  debugMode?: boolean;
+  startMargin?: number;
   /**
-   * @param frames This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one!
+   * @param style This property refers to section container styles(not the animation container).
    */
-  frames: AnimationSegment;
+  style?: CSSProperties;
+  /**
+   * @param className This property refers to section container className(not the animation container).
+   */
+  className?: string;
 }
 
 export default LottieScrollSectionProps;

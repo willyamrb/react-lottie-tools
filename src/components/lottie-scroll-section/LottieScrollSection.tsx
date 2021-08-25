@@ -4,6 +4,7 @@ import { useTransform, useViewportScroll } from "framer-motion";
 import getTopPosition from "../../utils/getTopDistance";
 import LottieScrollSectionProps from "../../@types/lottie-scroll-section.interface";
 import getTotalViewport from "../../utils/getTotalViewport";
+import { getHorizontalAnimPosition } from "../../utils/animationAlign";
 
 const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   height,
@@ -11,11 +12,14 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   debugMode = false,
   frames,
   animation,
+  startMargin = 0,
+  style,
+  className,
   ...rest
 }) => {
   if (!frames) {
     throw new Error(
-      "LottieScrollSection needs the frames property in settings object!"
+      "LottieScrollSection needs the frames property!"
     );
   }
 
@@ -31,7 +35,10 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   const { scrollY } = useViewportScroll();
   const scene = useTransform(
     scrollY,
-    [getTopPosition(sectionRef), getTotalViewport(sectionRef, height)],
+    [
+      getTopPosition(sectionRef) - startMargin,
+      getTotalViewport(sectionRef, height),
+    ],
     frames
   );
 
@@ -42,7 +49,7 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
       const newAnim = lottie.loadAnimation({
         container: lottieContainerRef.current,
         renderer: "svg",
-        initialSegment: frames,
+        initialSegment: [0, frames[1]],
         animationData: typeof animation !== "string" ? animation : undefined,
         path: typeof animation === "string" ? animation : undefined,
         ...rest,
@@ -62,28 +69,17 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
     };
   }, [lottieContainerRef]);
 
-  const getAnimPosition = (): "center" | "flex-start" | "flex-end" => {
-    switch (animationPosition) {
-      case "center":
-        return "center";
-      case "left":
-        return "flex-start";
-      case "right":
-        return "flex-end";
-      default:
-        return "center";
-    }
-  };
-
   return (
     <section
       ref={sectionRef}
+      className={className}
       style={{
-        display: "flex",
         width: "100%",
+        ...style,
+        display: "flex",
         height,
         position: "relative",
-        justifyContent: getAnimPosition(),
+        justifyContent: getHorizontalAnimPosition(animationPosition),
         border: debugMode ? "1px solid red" : undefined,
       }}
     >
