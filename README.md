@@ -81,9 +81,13 @@ export default function MyComponent() {
 }
 ```
 
+### Working with scroll interactions
+
+Inside React Lottie Tools there are 2 components to work with scroll interactions, they are LottieScrollSection and LottieScrollAnimation component. At first looking they look the same, but they have your differences, LottieScrollSection should be used if you just want an entire animation inside a section without any other content, just animation, also it helps to let the HTML more semantic helping in SEO scores. On the other hand LottieScrollAnimation can be used inside others elements like div, sections and so on to build your own section with other contents inside it!
+
 ### LottieScrollSection component
 
-Now a complex animation, the LottieScrollSection component will sincronize the current scroll with the animation frame. It means that according you scroll the page, the animation will play.
+The LottieScrollSection component will sincronize the current scroll with the animation frame. It means that according you scroll the page, the animation will play.
 
 ```jsx
 import { LottieScrollSection } from "react-lottie-tools";
@@ -98,13 +102,55 @@ export default function MyComponent() {
 
 #### LottieScrollSection component props
 
-| property          | required | type             | default | description                                                                                                                                           |
-| :---------------- | :------- | :--------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| animation         | ✅       | any or string    | null    | This property refers to animation data, it is similar to path and animationData property from offical lottie-web lib!                                 |
-| height            | ✅       | number           | null    | This property refers to section height, how much higher this value, will take more time to finish the animation.                                      |
-| frames            | ✅       | [number, number] | null    | This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one! |
-| animationPosition | ❌       | string           | center  | This property refers to animation position inside the section. It just can be "left" / "center / "right"                                              |
-| debugMode         | ❌       | boolean          | false   | This property shows the section and animation container borders, only for debugging purposes.                                                         |
+| property          | required | type             | default | description                                                                                                                                                                                                    |
+| :---------------- | :------- | :--------------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| animation         | ✅       | any or string    | null    | This property refers to animation data, it is similar to path and animationData property from offical lottie-web lib!                                                                                          |
+| height            | ✅       | number           | null    | This property refers to section height, how much higher this value, will take more time to finish the animation.                                                                                               |
+| frames            | ✅       | [number, number] | null    | This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one!                                                          |
+| animationPosition | ❌       | string           | center  | This property refers to animation position inside the section. It just can be "left" / "center / "right"                                                                                                       |
+| debugMode         | ❌       | boolean          | false   | This property shows the section and animation container borders, only for debugging purposes.                                                                                                                  |
+| startMargin       | ❌       | number           | 0       | This property refers to increase the trigger point, the default behavior is that the animation just will play when the section take all the screen view, but you can increase that value to start before that. |
+| style             | ❌       | CSSProperties    | null    | This property refers to animation container styles.                                                                                                                                                            |
+| className         | ❌       | string           | null    | This property refers to animation container className.                                                                                                                                                         |
+
+### LottieScrollAnimation component
+
+The LottieScrollAnimation component also will sincronize the current scroll with the animation frame.
+
+```jsx
+import { LottieScrollAnimation } from "react-lottie-tools";
+import menu from "./assets/lottie-examples/menu.json";
+
+export default function MyComponent() {
+  return (
+    <div style={{ display: "flex" }}>
+      <div style={{ flex: 1 }}>
+        <LottieScrollAnimation
+          height={4000}
+          animation={menu}
+          frames={[0, 390]}
+        />
+      </div>
+      <div style={{ flex: 1 }}>
+        <h1>This is my custom content</h1>
+      </div>
+    </div>
+  );
+}
+```
+
+#### LottieScrollAnimation component props
+
+| property                 | required | type             | default | description                                                                                                                                                  |
+| :----------------------- | :------- | :--------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| animation                | ✅       | any or string    | null    | This property refers to animation data, it is similar to path and animationData property from offical lottie-web lib!                                        |
+| height                   | ✅       | number           | null    | This property refers to section height, how much higher this value, will take more time to finish the animation.                                             |
+| frames                   | ✅       | [number, number] | null    | This property refers to animation frames, if your animation has 300 frames, you need to put [0, 300], being 0 the initial frame and 300 the last one!        |
+| verticalAnimationAlign   | ❌       | string           | center  | This property refers to vertical animation align inside parent container, it is similar to align-items from CSS. It can be "center" / "top" / "bottom".      |
+| horizontalAnimationAlign | ❌       | string           | center  | This property refers to horizontal animation align inside parent container, it is similar to justify-content from CSS. It can be "left" / "center" / "right" |
+| debugMode                | ❌       | boolean          | false   | This property shows the section and animation container borders, only for debugging purposes.                                                                |
+| style                    | ❌       | CSSProperties    | null    | This property refers to section container styles(not the animation container).                                                                               |
+| className                | ❌       | string           | null    | This property refers to section container className(not the animation container).                                                                            |
 
 ## Using with Next.js
 
@@ -142,7 +188,9 @@ import menu from "./assets/lottie-examples/menu.json";
 
 import dynamic from "next/dynamic";
 const LottieScrollSection =
-  dynamic<LottieScrollSectionProps>(import("react-lottie-tools").then((data) => data.LottieScrollSection),
+  dynamic <
+  LottieScrollSectionProps >
+  (import("react-lottie-tools").then((data) => data.LottieScrollSection),
   { ssr: false }); // ssr is important to be false
 
 const MyComponent: React.FC = () => {
