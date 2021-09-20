@@ -22,28 +22,36 @@ const LottieAnimation: React.FC<LottieAnimationProps> = ({
 
   useEffect(() => {
     if (!animRef.current) return;
-
-    if (!anim) {
-      const newAnim = lottie.loadAnimation({
-        renderer: "svg",
-        container: animRef.current,
-        autoplay,
-        loop,
-        initialSegment: frames,
-        animationData:
-          typeof animation !== "string" ? animation : undefined,
-        path: typeof animation === "string" ? animation : undefined,
-        ...rest,
-      });
-      newAnim.setSpeed(speed);
-      setAnim(newAnim);
-    }
+    inititAnimation();
 
     return () => {
       if (!anim) return;
       anim?.destroy();
     };
   }, [animRef]);
+
+  const inititAnimation = () => {
+    if (!animRef.current) return;
+
+    const newAnim = lottie.loadAnimation({
+      renderer: "svg",
+      container: animRef.current,
+      autoplay,
+      loop,
+      initialSegment: frames,
+      animationData: typeof animation !== "string" ? animation : undefined,
+      path: typeof animation === "string" ? animation : undefined,
+      ...rest,
+    });
+    newAnim.setSpeed(speed);
+    setAnim(newAnim);
+  };
+
+  useEffect(() => {
+    if (!anim) return;
+    anim?.destroy();
+    inititAnimation();
+  }, [animation]);
 
   useEffect(() => {
     if (currentTimeline === "to") {
