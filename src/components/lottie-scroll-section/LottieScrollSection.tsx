@@ -85,11 +85,11 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
       <div
         ref={lottieContainerRef}
         style={{
+          width: "100%",
           ...animationStyle,
           height: "100vh",
           position: "sticky",
           top: "0",
-          width: "auto",
           border: debugMode ? "1px solid blue" : undefined,
         }}
       />
