@@ -18,6 +18,10 @@ interface LottieScrollSectionProps extends LottieScrollAnimations {
    */
   style?: CSSProperties;
   /**
+   * @param style This property refers to animation container styles(not the section container).
+   */
+  animationStyle?: CSSProperties;
+  /**
    * @param className This property refers to section container className(not the animation container).
    */
   className?: string;
