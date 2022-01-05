@@ -15,12 +15,11 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
   startMargin = 0,
   style,
   className,
+  animationStyle,
   ...rest
 }) => {
   if (!frames) {
-    throw new Error(
-      "LottieScrollSection needs the frames property!"
-    );
+    throw new Error("LottieScrollSection needs the frames property!");
   }
 
   if (height < window.innerHeight) {
@@ -76,19 +75,21 @@ const LottieScrollSection: React.FC<LottieScrollSectionProps> = ({
       style={{
         width: "100%",
         ...style,
+        border: debugMode ? "1px solid red" : undefined,
         display: "flex",
         height,
         position: "relative",
         justifyContent: getHorizontalAnimPosition(animationPosition),
-        border: debugMode ? "1px solid red" : undefined,
       }}
     >
       <div
         ref={lottieContainerRef}
         style={{
+          ...animationStyle,
           height: "100vh",
           position: "sticky",
           top: "0",
+          width: "auto",
           border: debugMode ? "1px solid blue" : undefined,
         }}
       />
