@@ -12,6 +12,21 @@ This library also use other libraries to help with interactions, like [Framer Mo
 
 Also is important to mention that React Lottie Tools is highly typed!
 
+## Install
+
+```shell
+npm install react-lottie-tools
+or
+yarn add react-lottie-tools
+```
+
+Required packages
+```shell
+npm install lottie-web react-intersection-observer framer-motion
+or
+yarn add lottie-web react-intersection-observer framer-motion
+```
+
 ## Getting started
 
 ### LottieAnimation component
